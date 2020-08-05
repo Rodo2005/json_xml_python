@@ -15,6 +15,14 @@ __author__ = "Inove Coding School"
 __email__ = "alumnos@inove.com.ar"
 __version__ = "1.1"
 
+import json
+import requests
+import xml.etree.ElementTree as ET
+from datetime import datetime
+
+import matplotlib.pyplot as plt
+import matplotlib.axes
+
 
 def ej1():
     # JSON Serialize
@@ -36,7 +44,34 @@ def ej1():
     # un archivo que usted defina
 
     # Observe el archivo y verifique que se almaceno lo deseado
-    pass
+
+    datos_personales = {
+                        "nombre": "Rodolfo",
+                        "Apellido": "Colombo",
+                        "DNI:": 15177893,
+                        "ropa": [
+                            {
+                            "prenda": "remera", "cantidad": 23
+                            },
+                            {
+                            "prenda": "pantalones", "cantidad": 9
+                            },
+                            {
+                            "prenda": "zapatillas", "cantidad": 8
+                            },
+                            {
+                            "prenda": "medias", "cantidad": 12
+                            }
+                            ] 
+                       }
+    json_datos = json.dumps(datos_personales, indent=4)
+
+    with open ("datos_personales.json", "w")  as archivo_writer:
+        json.dump(json_datos, archivo_writer)
+        print(json_datos)
+    
+
+    #pass
 
 
 def ej2():
@@ -49,6 +84,13 @@ def ej2():
     # el método "dumps" y finalmente imprimir en pantalla el resultado
     # Recuerde utilizar indent=4 para poder observar mejor el resultado
     # en pantalla y comparelo contra el JSON que generó en el ej1
+
+    with open ('datos_personales', 'r') as jsonfile:
+        current_data = json.load(jsonfile)
+    string_data = json.dumps(current_data, indent=4)
+    print(string_data)
+
+    
     pass
 
 
@@ -59,6 +101,10 @@ def ej3():
     # lo más parecida al ejercicio 1.
     # El objectivo es que armen un archivo XML al menos
     # una vez para que entiendan como funciona.
+
+    datos_personales.xml
+    
+
     pass
 
 
@@ -72,6 +118,16 @@ def ej4():
     # Python lanza algún error, es porque hay problemas en el archivo.
     # Preseten atención al número de fila y al mensaje de error
     # para entender que puede estar mal en el archivo.
+
+    tree = ET.parse('datos_personales.xml')
+    root = tree.getroot()
+    for child in root:
+        print('tag:', child.tag, 'attr:', child.attrib, 'text:', child.text)
+        for child2 in child:
+            print('tag:', child2.tag, 'attr:', child2.attrib, 'text:', child2.text)
+            for child3 in child2:
+                print('tag:', child3.tag, 'attr:', child3.attrib, 'text:', child3.text)
+    print('')
     pass
 
 
@@ -101,13 +157,49 @@ def ej5():
     # para imprimir cuantos títulos completó cada usuario
     # y verifique si los primeros usuarios (mirando la página a ojo)
     # los datos recolectados son correctos.
+    from collections import Counter
+    response = requests.get(url)
+    if response.status_code == 200:
+        contenido = response.json()
 
+    filter_data1 = [{'usuario': x['userId'], 'titulo': x['title'], 'certificado': x['completed']} for x in contenido if x.get('completed') is True]
+    #filter_data2 = [(x['usuario']) for x in filter_data1]
+    contador = Counter([(x['usuario']) for x in filter_data1])
+    #  Imprimir los datos en consola
+    for i in contador:
+        print('El usuario', i, 'obtuvo', contador[i], 'titulos')
+
+    #  Imprimir datos en grafico con dos ejes de coordenadas
+    x = [i for i in contador]
+    y = [contador[i] for i in contador]
+    y_min = min(y)
+
+    fig = plt.figure()
+    ax = fig.add_subplot()
+    ax.plot(x, y, c='cyan')
+    ax.set_xlim(0, 10)
+    ax.set_ylim(y_min, 12)
+    ax.grid()
+    ax.set_title('Titulos')
+    plt.show()
+
+    #  Imprimir los datos en grafico de torta
+    fig = plt.figure()
+    fig.suptitle('Usuarios / Titulos', fontsize=16)
+    ax = fig.add_subplot()
+    explode = (0.15, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+    ax.pie(y, labels=x, autopct='%1.1f%%', shadow=True, startangle=343, explode=explode)
+    ax.axis('equal')
+    ax.set_title('Titulos')
+    plt.show()
+
+    print('')
 
 
 if __name__ == '__main__':
     print("Bienvenidos a otra clase de Inove con Python")
-    ej1()
-    # ej2()
-    # ej3()
-    # ej4()
-    # ej5()
+    #ej1()
+    #ej2()
+    #ej3()
+    #ej4()
+    ej5()

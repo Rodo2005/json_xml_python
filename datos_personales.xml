@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+
+<datos_personales>
+                <nombre>Rodolfo</nombre>
+                <apellido>Colombo</apellido>
+                <dni>15177893</dni>
+                <ropa>
+                    <prenda>
+                        <categoria>Remera</categoria>
+                        <cantidad>13</cantidad>
+                    </prenda>
+                    <prenda>
+                        <categoria>Pantalon</categoria>
+                        <cantidad>9</cantidad>
+                    </prenda>
+                    <prenda>
+                        <categoria>Medias</categoria>
+                        <cantidad>15</cantidad>
+                    </prenda>
+                    <prenda>
+                        <categoria>Zapatillas</categoria>
+                        <cantidad>7</cantidad>
+                    </prenda>
+                </ropa>
+</datos_personales>
