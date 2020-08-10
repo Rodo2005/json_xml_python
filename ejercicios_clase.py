@@ -157,7 +157,8 @@ def ej5():
     # para imprimir cuantos títulos completó cada usuario
     # y verifique si los primeros usuarios (mirando la página a ojo)
     # los datos recolectados son correctos.
-    from collections import Counter
+    from collections import Counter #  Importe esta libreria para usar counter
+
     response = requests.get(url)
     if response.status_code == 200:
         contenido = response.json()
@@ -169,7 +170,7 @@ def ej5():
     for i in contador:
         print('El usuario', i, 'obtuvo', contador[i], 'titulos')
 
-    #  Imprimir datos en grafico con dos ejes de coordenadas
+    #  Imprime datos en grafico con dos ejes de coordenadas (plot)
     x = [i for i in contador]
     y = [contador[i] for i in contador]
     y_min = min(y)
@@ -183,7 +184,9 @@ def ej5():
     ax.set_title('Titulos')
     plt.show()
 
-    #  Imprimir los datos en grafico de torta
+    #  Imprime los datos en grafico de torta (pie plot)
+    #  Queda resolver que no ponga porcentajes, si no cantidad de titulos
+    #  obtenidos
     fig = plt.figure()
     fig.suptitle('Usuarios / Titulos', fontsize=16)
     ax = fig.add_subplot()
@@ -193,7 +196,6 @@ def ej5():
     ax.set_title('Titulos')
     plt.show()
 
-    print('')
 
 
 if __name__ == '__main__':
